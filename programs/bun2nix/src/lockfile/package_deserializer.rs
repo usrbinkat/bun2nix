@@ -34,7 +34,32 @@ impl PackageDeserializer {
             1 => deserializer.deserialize_workspace_package(),
             2 => deserializer.deserialize_tarball_or_file_package(),
             3 => deserializer.deserialize_tarball_git_or_github_package(),
-            4 => deserializer.deserialize_npm_package(),
+            4 => {
+                // Arity 4 is normally an npm package, but bun also serializes
+                // github/git dependencies as arity 4 when a patched dependency
+                // or integrity hash is present. Inspect the specifier prefix
+                // to route these to the correct deserializer.
+                let is_git_dep = deserializer
+                    .values
+                    .first()
+                    .and_then(|v| v.as_str())
+                    .is_some_and(|id| {
+                        let after_scope = if id.starts_with('@') { &id[1..] } else { id };
+                        after_scope
+                            .find('@')
+                            .map(|pos| {
+                                let spec = &after_scope[pos + 1..];
+                                spec.starts_with("github:") || spec.starts_with("git+")
+                            })
+                            .unwrap_or(false)
+                    });
+
+                if is_git_dep {
+                    deserializer.deserialize_tarball_git_or_github_package()
+                } else {
+                    deserializer.deserialize_npm_package()
+                }
+            }
             x => Err(Error::UnexpectedPackageEntryLength(x)),
         }
     }
