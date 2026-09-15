@@ -44,7 +44,7 @@ impl PackageDeserializer {
                     .first()
                     .and_then(|v| v.as_str())
                     .is_some_and(|id| {
-                        let after_scope = if id.starts_with('@') { &id[1..] } else { id };
+                        let after_scope = id.strip_prefix('@').unwrap_or(id);
                         after_scope
                             .find('@')
                             .map(|pos| {

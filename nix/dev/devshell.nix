@@ -21,28 +21,30 @@
     in
     {
       devShells.default = pkgs.mkShell {
-        packages = with pkgs; [
-          rustc
-          cargo
-          rustfmt
-          clippy
+        packages =
+          with pkgs;
+          [
+            rustc
+            cargo
+            rustfmt
+            clippy
 
-          zig
-          zon2nix
+            zig
+            zon2nix
 
-          mdbook
+            mdbook
 
-          bun
-          self'.packages.bun2nix
+            bun
+            self'.packages.bun2nix
 
-          wasm-bindgen-cli_0_2_104
-          wasm-pack
-          lld
+            wasm-bindgen-cli_0_2_104
+            wasm-pack
+            lld
 
-          beamPackages.elixir_1_20
+            beamPackages.elixir_1_20
 
-          (lib.optional (!stdenv.isDarwin) moldHook)
-        ];
+          ]
+          ++ lib.optional (!stdenv.hostPlatform.isDarwin) moldHook;
       };
     };
 }
