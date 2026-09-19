@@ -2,7 +2,7 @@
   description = "Create nix expressions from bun lockfiles";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:usrbinkat/nixpkgs/gssproxy-package-and-module";
     systems.url = "github:nix-systems/triplet";
 
     flake-parts = {
