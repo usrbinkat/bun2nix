@@ -28,8 +28,8 @@ let
   src = fetchFromGitHub {
     owner = "usrbinkat";
     repo = "bun2nix";
-    rev = "a4bedb247cabd86e2ed760d17d6b1dfb650e4316";
-    hash = "sha256-XwypaTE32xhbuMdiJyqTc1Okj+EQ8MaScmPg2V5bSFI=";
+    rev = "714af6d3f54fab402a3ee8ac016506c477b52384";
+    hash = "sha256-1crWPaBfpNxtqPxfg01ryTeTLJIKkmYIzo49e74+baQ=";
   };
 
   # Zig cache-entry-creator: computes wyhash cache paths for bun packages
